@@ -12,6 +12,7 @@ from datetime import datetime
 start_time = datetime.now()
 
 from moteur.scrape import scrape_moteur
+from avito.scrape import scrape_avito
 
 
 def get_cars_html(num):
@@ -54,10 +55,12 @@ def get_cars_html(num):
     return cars
 
 
-ikhan = scrape_moteur(100)
+ikhan = scrape_avito(3)
 print(ikhan)
 print(len(ikhan))
 
+end_time = datetime.now()
+print("Duration: {}".format(end_time - start_time))
 
 # def get_cars(car_html):
 #     return print("Helllo")
