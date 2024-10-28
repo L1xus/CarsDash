@@ -2,8 +2,9 @@ import time
 import random
 import requests
 from bs4 import BeautifulSoup
-# from .car_details import get_car_detail
+from .car_details import get_car_detail
 from .config import base_url, headers
+from avito import car_details
 
 def scrape_avito(car_num):
     cars = []
@@ -19,8 +20,8 @@ def scrape_avito(car_num):
 
         for car_html in car_soup:
             car_url = car_html["href"]
-            print(car_url)
-            # car_detail = get_car_detail(car_html)
+            car_detail = get_car_detail(car_url)
+            print(car_detail)
             cars.append(car_url)
             if len(cars) >= car_num:
                 break
