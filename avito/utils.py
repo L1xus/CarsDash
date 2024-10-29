@@ -20,3 +20,10 @@ def time_to_time(car_time):
         date_time = current_time
 
     return date_time.strftime("%d-%m-%Y")
+
+def average_km(km_range):
+    start, end = km_range.split(' - ')
+    start = int(start.replace(' ', ''))
+    end = int(end.replace(' ', ''))
+
+    return (start + end) // 2

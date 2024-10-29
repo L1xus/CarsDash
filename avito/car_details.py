@@ -1,11 +1,20 @@
 import requests
 from .config import headers
-from .utils import time_to_time
+from .utils import time_to_time, average_km
 from bs4 import BeautifulSoup
 
 def get_car_detail(car_url):
+    car_metadata = {}
+    required_fields = ["Kilométrage", "Marque", "Modèle", "Puissance fiscale", "Nombre de portes", "Première main"]
+    en_tran = {
+        "Automatique": "Automatic",
+        "Manuelle": "Manual"
+    }
+    en_first = {
+        "Oui": "Yes",
+        "Non": "No"
+    }
     try:
-        print(f"Here is your Car: {car_url}")
         response = requests.get(car_url, headers=headers)
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -14,11 +23,40 @@ def get_car_detail(car_url):
         location = soup.find_all("span", class_="sc-1x0vz2r-0 iotEHk")[0].text
         date_time = soup.find("time").text
 
+        meta_icon = soup.find_all("span", class_="sc-1x0vz2r-0 kQHNss")
+
+        year = meta_icon[0].text
+        transmission = meta_icon[1].text
+        if transmission in en_tran:
+            transmission = en_tran[transmission]
+        fuel = meta_icon[2].text
+
+        meta_soup = soup.find_all("li", class_="sc-qmn92k-1 jJjeGO")
+        for meta in meta_soup:
+            spans = meta.find_all('span')
+            trait = spans[0].text
+            trait_value = spans[1].text
+
+            car_metadata[trait] = trait_value
+
+        first_hand = car_metadata.get("Première main")
+        if first_hand in en_first:
+            first_hand = en_first[first_hand]
+
         return {
             "title": title,
+            "car_company": car_metadata.get("Marque"),
+            "car_model": car_metadata.get("Modèle"),
             "price": price,
+            "year": year,
             "location": location,
-            "announcement_date": time_to_time(date_time)
+            "fuel": fuel,
+            "km": average_km(car_metadata.get("Kilométrage")),
+            "transmission": transmission,
+            "announcement_date": time_to_time(date_time),
+            "tax_power": car_metadata.get("Puissance fiscale"),
+            "doors": car_metadata.get("Nombre de portes"),
+            "first_hand": first_hand
         }
 
     except Exception as e:
