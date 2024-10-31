@@ -55,10 +55,10 @@ def get_cars_html(num):
     return cars
 
 
-tojot = scrape_moteur(3)
+tojot = scrape_moteur(5)
 print(tojot)
 print(len(tojot))
-ikhan = scrape_avito(3)
+ikhan = scrape_avito(5)
 print(ikhan)
 print(len(ikhan))
 
