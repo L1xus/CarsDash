@@ -55,10 +55,10 @@ def get_cars_html(num):
     return cars
 
 
-tojot = scrape_moteur(5)
-print(tojot)
-print(len(tojot))
-ikhan = scrape_avito(5)
+# tojot = scrape_moteur(5)
+# print(tojot)
+# print(len(tojot))
+ikhan = scrape_avito(100)
 print(ikhan)
 print(len(ikhan))
 
@@ -68,3 +68,4 @@ print("Duration: {}".format(end_time - start_time))
 # def get_cars(car_html):
 #     return print("Helllo")
 #
+# rsync -avz -e "ssh -i car_ec2_key.pem" CarsDash/ ec2-user@ec2-13-36-59-4.eu-west-3.compute.amazonaws.com:/home/ec2-user/CarsDash

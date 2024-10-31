@@ -7,10 +7,10 @@ from .config import base_url, headers
 
 
 def scrape_avito(car_num):
+    page_number = 1
     cars = []
 
     while len(cars) < car_num:
-        page_number = 1
 
         url = f"{base_url}{page_number}"
         response = requests.get(url, headers=headers)

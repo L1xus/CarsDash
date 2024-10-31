@@ -6,6 +6,13 @@ from bs4 import BeautifulSoup
 def get_car_detail(car_url):
     car_metadata = {}
     required_fields = ["Kilométrage", "Marque", "Modèle", "Puissance fiscale", "Nombre de portes", "Première main"]
+    en_fuel = {
+        "Diesel": "Diesel",
+        "Electrique": "Electric",
+        "Essence": "Essence",
+        "Hybride": "Hybrid",
+        "LPG": "LPG"
+    }
     en_tran = {
         "Automatique": "Automatic",
         "Manuelle": "Manual"
@@ -25,11 +32,17 @@ def get_car_detail(car_url):
 
         meta_icon = soup.find_all("span", class_="sc-1x0vz2r-0 kQHNss")
 
-        year = meta_icon[0].text
-        transmission = meta_icon[1].text
+        year = meta_icon[0].text.strip() if len(meta_icon) > 0 else None
+        transmission = meta_icon[1].text.strip() if len(meta_icon) > 1 else None
         if transmission in en_tran:
             transmission = en_tran[transmission]
-        fuel = meta_icon[2].text
+        else:
+            transmission = None
+        fuel = meta_icon[2].text.strip() if len(meta_icon) > 2 else None
+        if fuel in en_fuel:
+            fuel = en_fuel[fuel]
+        else: 
+            fuel = None
 
         meta_soup = soup.find_all("li", class_="sc-qmn92k-1 jJjeGO")
         for meta in meta_soup:
@@ -37,7 +50,8 @@ def get_car_detail(car_url):
             trait = spans[0].text
             trait_value = spans[1].text
 
-            car_metadata[trait] = trait_value
+            if trait in required_fields:
+                car_metadata[trait] = trait_value
 
         first_hand = car_metadata.get("Première main")
         if first_hand in en_first:

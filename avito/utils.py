@@ -22,6 +22,10 @@ def time_to_time(car_time):
     return date_time.strftime("%d-%m-%Y")
 
 def average_km(km_range):
+    if km_range.startswith("Plus de"):
+        km_value = int(km_range.replace('Plus de ', '').replace(' ', ''))
+        return km_value
+
     start, end = km_range.split(' - ')
     start = int(start.replace(' ', ''))
     end = int(end.replace(' ', ''))
