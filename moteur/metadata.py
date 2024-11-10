@@ -37,4 +37,13 @@ def get_car_metadata(car_url):
                 trait_value = fr_to_en[trait_value]
             car_metadata[trait] = trait_value
 
+    if "Kilométrage" in car_metadata:
+        car_metadata["Kilométrage"] = int(car_metadata["Kilométrage"].replace(" ", ""))
+
+    if "Véhicule dédouané" in car_metadata:
+        car_metadata["Véhicule dédouané"] = int(car_metadata["Véhicule dédouané"])
+
+    if "Nombre de portes" in car_metadata:
+        car_metadata["Nombre de portes"] = int(car_metadata["Nombre de portes"])
+
     return car_metadata

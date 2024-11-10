@@ -32,7 +32,7 @@ def get_car_detail(car_url):
 
         meta_icon = soup.find_all("span", class_="sc-1x0vz2r-0 kQHNss")
 
-        year = meta_icon[0].text.strip() if len(meta_icon) > 0 else None
+        year = int(meta_icon[0].text.strip()) if len(meta_icon) > 0 else None
         transmission = meta_icon[1].text.strip() if len(meta_icon) > 1 else None
         if transmission in en_tran:
             transmission = en_tran[transmission]
@@ -56,6 +56,9 @@ def get_car_detail(car_url):
         first_hand = car_metadata.get("Première main")
         if first_hand in en_first:
             first_hand = en_first[first_hand]
+
+        if "Nombre de portes" in car_metadata:
+            car_metadata["Nombre de portes"] = int(car_metadata["Nombre de portes"])
 
         return {
             "title": title,

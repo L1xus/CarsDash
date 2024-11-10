@@ -21,7 +21,7 @@ def get_car_detail(car_html):
             car_feul = metadata_items[3].text if len(metadata_items) > 3 else None
             car_meta_url = metadata_items[4].a["href"] if len(metadata_items) > 4 else None
 
-        year = clear_text(car_year) if car_year else None
+        year = int(clear_text(car_year)) if car_year else None
         location = clear_text(car_location) if car_location else None
         fuel = clear_text(car_feul) if car_feul else None
 
