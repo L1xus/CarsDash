@@ -28,20 +28,20 @@ def insert_cars(cars):
 
         for car in cars:
             data = (
-                car['title'],
-                car['car_company'],
-                car['car_model'],
-                car['price'],
-                car['year'],
-                car['location'],
-                car['fuel'],
-                car['km'],
-                car['transmission'],
-                car['announcement_date'],
-                car['tax_power'],
-                car['doors'],
-                car['first_hand'],
-                car['nationality_year'],
+                car.get('title'),
+                car.get('car_company'),
+                car.get('car_model'),
+                car.get('price'),
+                car.get('year'),
+                car.get('location'),
+                car.get('fuel'),
+                car.get('km'),
+                car.get('transmission'),
+                car.get('announcement_date'),
+                car.get('tax_power'),
+                car.get('doors'),
+                car.get('first_hand'),
+                car.get('nationality_year')
             )
 
             cur.execute(insert_query, data)

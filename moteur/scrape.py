@@ -6,9 +6,10 @@ from .car_details import get_car_detail
 from .config import base_url, headers
 from db.insert import insert_cars
 
-BATCH_SIZE = 50
+BATCH_CARS = 50
 
 def scrape_moteur(car_num):
+    total_inserted = 0
     page_number = 1
     cars = []
 
@@ -25,8 +26,9 @@ def scrape_moteur(car_num):
             selected_cars = get_car_detail(car_html)
             cars.append(selected_cars)
 
-            if len(cars) >= BATCH_SIZE:
+            if len(cars) >= BATCH_CARS:
                 insert_cars(cars)
+                total_inserted += len(cars)
                 cars = []  
 
             if len(cars) >= car_num:
@@ -39,5 +41,9 @@ def scrape_moteur(car_num):
 
     if cars:
         insert_cars(cars)
+        total_inserted += len(cars)
 
-    return cars
+    return {
+        "status": "Moteur Scraping Completed",
+        "total_cars_inserted": total_inserted
+    }
