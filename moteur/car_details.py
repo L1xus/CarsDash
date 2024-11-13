@@ -53,6 +53,7 @@ def get_car_detail(car_html):
             "doors": car_meta.get("Nombre de portes"),
             "first_hand": car_meta.get("Première main"),
             "nationality_year": car_meta.get("Véhicule dédouané"),
+            "announcement_url": car_meta_url,
         }
 
     except Exception as e:

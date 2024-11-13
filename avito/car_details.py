@@ -23,7 +23,6 @@ def get_car_detail(car_url):
 
         title = soup.find("h1", class_="sc-1g3sn3w-12 jUtCZM").text
         price = extract_number(soup.find("p", class_="sc-1x0vz2r-0 lnEFFR sc-1g3sn3w-13 czygWQ").text) if soup.find("p", class_="sc-1x0vz2r-0 lnEFFR sc-1g3sn3w-13 czygWQ") else None
-        # price = extract_number(price_text) if price_text else None
         location = soup.find_all("span", class_="sc-1x0vz2r-0 iotEHk")[0].text
         date_time = soup.find("time").text
 
@@ -66,7 +65,8 @@ def get_car_detail(car_url):
             "announcement_date": time_to_time(date_time),
             "tax_power": extract_number(car_metadata.get("Puissance fiscale")),
             "doors": car_metadata.get("Nombre de portes"),
-            "first_hand": car_metadata.get("Première main")
+            "first_hand": car_metadata.get("Première main"),
+            "announcement_url": car_url
         }
 
     except Exception as e:
