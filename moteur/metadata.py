@@ -6,12 +6,9 @@ from bs4 import BeautifulSoup
 def get_car_metadata(car_url):
     car_metadata = {}
     required_fields = ["Kilométrage", "Boite de vitesses", "Date", "Puissance fiscale", "Nombre de portes", "Première main", "Véhicule dédouané"]
-    fr_to_en = {
-        "Oui": "Yes",
-        "Non": "No",
+    en_transmission = {
         "Automatique": "Automatic",
         "Manuelle": "Manual",
-        "Electrique": "Electric"
     }
 
     response = requests.get(car_url, headers=headers)
@@ -33,9 +30,13 @@ def get_car_metadata(car_url):
         trait_value = clear_text(spans[1].text)
 
         if trait in required_fields:
-            if trait_value in fr_to_en:
-                trait_value = fr_to_en[trait_value]
             car_metadata[trait] = trait_value
+
+    if "Boite de vitesses" in car_metadata:
+        if car_metadata["Boite de vitesses"] in en_transmission:
+            car_metadata["Boite de vitesses"] = en_transmission.get(car_metadata.get("Boite de vitesses"))
+        else:
+            car_metadata["Boite de vitesses"] = None
 
     if "Kilométrage" in car_metadata:
         car_metadata["Kilométrage"] = int(car_metadata["Kilométrage"].replace(" ", ""))

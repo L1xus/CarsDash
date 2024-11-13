@@ -4,9 +4,9 @@ import requests
 from bs4 import BeautifulSoup
 from .car_details import get_car_detail
 from .config import base_url, headers
-from db.insert import insert_cars
-
-BATCH_CARS = 50
+# from db.insert import insert_cars
+#
+# BATCH_CARS = 250
 
 def scrape_avito(car_num):
     total_inserted = 0
@@ -26,10 +26,10 @@ def scrape_avito(car_num):
             car_detail = get_car_detail(car_url)
             cars.append(car_detail)
 
-            if len(cars) >= BATCH_CARS:
-                insert_cars(cars)
-                total_inserted += len(cars)
-                cars = []  
+            # if len(cars) >= BATCH_CARS:
+            #     insert_cars(cars)
+            #     total_inserted += len(cars)
+            #     cars = []  
 
             if len(cars) >= car_num:
                 break
@@ -39,11 +39,12 @@ def scrape_avito(car_num):
         if page_number % 2 == 0:
             time.sleep(random.uniform(2, 10))
 
-    if cars:
-        insert_cars(cars)
-        total_inserted += len(cars)
+    # if cars:
+    #     insert_cars(cars)
+    #     total_inserted += len(cars)
 
     return {
         "status": "Avito Cars Scraping Completed",
-        "total_cars_inserted": total_inserted
+        "total_cars_inserted": total_inserted,
+        "Cars": cars
     }

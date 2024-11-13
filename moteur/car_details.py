@@ -1,11 +1,18 @@
-from .utils import clear_text
+from .utils import clear_text, extract_number
 from .metadata import get_car_metadata
 
 def get_car_detail(car_html):
+    en_fuel = {
+        "Diesel": "Diesel",
+        "Electrique": "Electric",
+        "Essence": "Petrol",
+        "Hybride": "Hybrid"
+    }
+
     try:
         car_title = clear_text(car_html.h3.a.text)
         car_price = car_html.find(class_="price").text if car_html.find(class_="price") else None
-        price = clear_text(car_price) if car_price else None
+        price = extract_number(clear_text(car_price)) if car_price else None
 
         metadata = car_html.find(lambda tag: tag.has_attr("class") and tag["class"] == ["meta"])
         metadata_items = metadata.find_all("li") if metadata else []
@@ -24,6 +31,10 @@ def get_car_detail(car_html):
         year = int(clear_text(car_year)) if car_year else None
         location = clear_text(car_location) if car_location else None
         fuel = clear_text(car_feul) if car_feul else None
+        if fuel in en_fuel:
+            fuel = en_fuel[fuel]
+        else: 
+            fuel = "Water"
 
         car_meta = get_car_metadata(car_meta_url) if car_meta_url else {}
 
@@ -38,7 +49,7 @@ def get_car_detail(car_html):
             "km": car_meta.get("Kilométrage"),
             "transmission": car_meta.get("Boite de vitesses"),
             "announcement_date": car_meta.get("Date"),
-            "tax_power": car_meta.get("Puissance fiscale"),
+            "tax_power": extract_number(car_meta.get("Puissance fiscale")),
             "doors": car_meta.get("Nombre de portes"),
             "first_hand": car_meta.get("Première main"),
             "nationality_year": car_meta.get("Véhicule dédouané"),

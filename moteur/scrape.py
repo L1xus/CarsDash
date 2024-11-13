@@ -4,9 +4,9 @@ import requests
 from bs4 import BeautifulSoup
 from .car_details import get_car_detail
 from .config import base_url, headers
-from db.insert import insert_cars
-
-BATCH_CARS = 50
+# from db.insert import insert_cars
+#
+# BATCH_CARS = 150
 
 def scrape_moteur(car_num):
     total_inserted = 0
@@ -26,10 +26,10 @@ def scrape_moteur(car_num):
             selected_cars = get_car_detail(car_html)
             cars.append(selected_cars)
 
-            if len(cars) >= BATCH_CARS:
-                insert_cars(cars)
-                total_inserted += len(cars)
-                cars = []  
+            # if len(cars) >= BATCH_CARS:
+            #     insert_cars(cars)
+            #     total_inserted += len(cars)
+            #     cars = []
 
             if len(cars) >= car_num:
                 break
@@ -39,11 +39,12 @@ def scrape_moteur(car_num):
         if page_number % 3 == 0:
             time.sleep(random.uniform(2, 10))
 
-    if cars:
-        insert_cars(cars)
-        total_inserted += len(cars)
+    # if cars:
+    #     insert_cars(cars)
+    #     total_inserted += len(cars)
 
     return {
         "status": "Moteur Scraping Completed",
-        "total_cars_inserted": total_inserted
+        "total_cars_inserted": total_inserted,
+        "cars": cars
     }

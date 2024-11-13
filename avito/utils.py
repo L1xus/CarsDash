@@ -31,3 +31,6 @@ def average_km(km_range):
     end = int(end.replace(' ', ''))
 
     return (start + end) // 2
+
+def extract_number(string):
+    return int(re.sub(r"[^\d]", "", string))

@@ -1,3 +1,4 @@
+from datetime import datetime
 import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
@@ -27,6 +28,13 @@ def insert_cars(cars):
         """)
 
         for car in cars:
+            announcement_date = car.get('announcement_date')
+            if announcement_date:
+                try:
+                    announcement_date = datetime.strptime(announcement_date, "%d-%m-%Y").strftime("%Y-%m-%d")
+                except ValueError:
+                    print(f"Date format error for {announcement_date}")
+                    announcement_date = None
             data = (
                 car.get('title'),
                 car.get('car_company'),
@@ -37,7 +45,7 @@ def insert_cars(cars):
                 car.get('fuel'),
                 car.get('km'),
                 car.get('transmission'),
-                car.get('announcement_date'),
+                announcement_date,
                 car.get('tax_power'),
                 car.get('doors'),
                 car.get('first_hand'),

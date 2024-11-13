@@ -1,6 +1,6 @@
 import requests
 from .config import headers
-from .utils import time_to_time, average_km
+from .utils import time_to_time, average_km, extract_number
 from bs4 import BeautifulSoup
 
 def get_car_detail(car_url):
@@ -9,7 +9,7 @@ def get_car_detail(car_url):
     en_fuel = {
         "Diesel": "Diesel",
         "Electrique": "Electric",
-        "Essence": "Essence",
+        "Essence": "Petrol",
         "Hybride": "Hybrid",
         "LPG": "LPG"
     }
@@ -17,16 +17,13 @@ def get_car_detail(car_url):
         "Automatique": "Automatic",
         "Manuelle": "Manual"
     }
-    en_first = {
-        "Oui": "Yes",
-        "Non": "No"
-    }
     try:
         response = requests.get(car_url, headers=headers)
         soup = BeautifulSoup(response.text, "html.parser")
 
         title = soup.find("h1", class_="sc-1g3sn3w-12 jUtCZM").text
-        price = soup.find("div", class_="sc-1x0vz2r-0 lnEFFR sc-1g3sn3w-13 czygWQ").text if soup.find("div", class_="sc-1x0vz2r-0 lnEFFR sc-1g3sn3w-13 czygWQ") else None
+        price = extract_number(soup.find("p", class_="sc-1x0vz2r-0 lnEFFR sc-1g3sn3w-13 czygWQ").text) if soup.find("p", class_="sc-1x0vz2r-0 lnEFFR sc-1g3sn3w-13 czygWQ") else None
+        # price = extract_number(price_text) if price_text else None
         location = soup.find_all("span", class_="sc-1x0vz2r-0 iotEHk")[0].text
         date_time = soup.find("time").text
 
@@ -53,10 +50,6 @@ def get_car_detail(car_url):
             if trait in required_fields:
                 car_metadata[trait] = trait_value
 
-        first_hand = car_metadata.get("Première main")
-        if first_hand in en_first:
-            first_hand = en_first[first_hand]
-
         if "Nombre de portes" in car_metadata:
             car_metadata["Nombre de portes"] = int(car_metadata["Nombre de portes"])
 
@@ -71,9 +64,9 @@ def get_car_detail(car_url):
             "km": average_km(car_metadata.get("Kilométrage")),
             "transmission": transmission,
             "announcement_date": time_to_time(date_time),
-            "tax_power": car_metadata.get("Puissance fiscale"),
+            "tax_power": extract_number(car_metadata.get("Puissance fiscale")),
             "doors": car_metadata.get("Nombre de portes"),
-            "first_hand": first_hand
+            "first_hand": car_metadata.get("Première main")
         }
 
     except Exception as e:
