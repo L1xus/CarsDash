@@ -1,4 +1,4 @@
-from datetime import datetime
+from .transform import transform_announcement_date, transform_first_hand
 import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
@@ -23,18 +23,14 @@ def insert_cars(cars):
         cur = conn.cursor()
 
         insert_query = sql.SQL("""
-            INSERT INTO cars (title, car_company, car_model, price, year, location, fuel, km, transmission, announcement_date, tax_power, doors, first_hand, nationality_year)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO cars (title, car_company, car_model, price, year, location, fuel, km, transmission, announcement_date, tax_power, doors, first_hand, nationality_year, announcement_url)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """)
 
         for car in cars:
-            announcement_date = car.get('announcement_date')
-            if announcement_date:
-                try:
-                    announcement_date = datetime.strptime(announcement_date, "%d-%m-%Y").strftime("%Y-%m-%d")
-                except ValueError:
-                    print(f"Date format error for {announcement_date}")
-                    announcement_date = None
+            announcement_date = transform_announcement_date(car.get('announcement_date'))
+            first_hand = transform_first_hand(car.get('first_hand'))
+
             data = (
                 car.get('title'),
                 car.get('car_company'),
@@ -48,8 +44,9 @@ def insert_cars(cars):
                 announcement_date,
                 car.get('tax_power'),
                 car.get('doors'),
-                car.get('first_hand'),
-                car.get('nationality_year')
+                first_hand,
+                car.get('nationality_year'),
+                car.get('announcement_url')
             )
 
             cur.execute(insert_query, data)

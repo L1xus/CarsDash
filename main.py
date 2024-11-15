@@ -12,8 +12,8 @@ def scrape_return(scrape_function, *args):
 
 start_time = datetime.now()
 
-moteur_thread = threading.Thread(target=scrape_return, args=(scrape_moteur, 5))
-avito_thread = threading.Thread(target=scrape_return, args=(scrape_avito, 5))
+moteur_thread = threading.Thread(target=scrape_return, args=(scrape_moteur, 24593))
+avito_thread = threading.Thread(target=scrape_return, args=(scrape_avito, 91177))
 
 moteur_thread.start()
 avito_thread.start()
