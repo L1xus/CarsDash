@@ -59,13 +59,18 @@ def clean_database():
         print("Normalized car company names")
 
         conn.commit()
-        print("Data inserted successfully!")
+        print("Database cleanup completed successfully!")
 
     except Exception as e:
-        print(f"Error inserting data into PostgreSQL: {e}")
+        print(f"Error during database cleanup: {e}")
+    
 
     finally:
         if cur:
             cur.close()
         if conn:
             conn.close()
+
+if __name__ == "__main__":
+    clean_database()
+
