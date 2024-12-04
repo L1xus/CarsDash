@@ -1,0 +1,38 @@
+<div style="text-align: center; position: relative;">
+  <button id="prevCar" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); 
+    background: none; border: none; font-size: 32px; cursor: pointer;">⬅️</button>
+  <img id="carImage" src="/public/car-images/{{variableValue '${car_company}'}}.png" alt="Car Image" 
+    style="width: 100px; height: 100px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);" />
+  <button id="nextCar" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); 
+    background: none; border: none; font-size: 32px; cursor: pointer;">➡️</button>
+  <!-- <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512"><path fill="#ffffff" d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>   -->
+  <!-- <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512"><path fill="#ffffff" d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>  -->
+</div>
+
+<script>
+  // List of car companies
+  const carCompanies = ["Abarth", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "BYD", "Cadillac", "Chana", "Changhe", "Chery", "Chevrolet", "Chrysler", "Citroen", "Cupra", "Dacia", "Daewoo", "Daihatsu", "DFSK", "Dodge", "DS", "Faw", "Ferrari", "Fiat", "Ford", "Foton", "Gaz", "Geely", "GMC", "Great-wall", "Honda", "Hummer", "Hyundai", "Infiniti", "Isuzu", "Iveco", "Jaguar", "Jeep", "Kia", "Lamborghini", "Lancia", "Land Rover", "Lexus", "Lifan", "Lincoln", "Mahindra", "Maserati", "Mazda", "Mercedes", "Mg", "Mini", "Mitsubishi", "Nissan", "Opel", "Other", "Peugeot", "Pontiac", "Porsche", "Renault", "Rolls-Royce", "Rover", "Seat", "Simca", "Skoda", "Smart", "Ssangyong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", "Triumph", "Volkswagen", "Volvo", "Zotye"];
+
+  // Get the current car company from Grafana variable
+  let currentCar = context.grafana.replaceVariables("${car_company}");
+
+  // Find the current index
+  let currentIndex = carCompanies.indexOf(currentCar);
+
+  // Function to update the car company variable and the image
+  function updateCarModel(index) {
+    // Wrap-around navigation
+    currentIndex = (index + carCompanies.length) % carCompanies.length;
+    const newCar = carCompanies[currentIndex];
+
+    // Update the car image
+    document.getElementById("carImage").src = `/public/car-images/${newCar}.png`;
+
+    // Update Grafana variable
+    context.grafana.locationService.partial({ "var-car_company": newCar }, true);
+  }
+
+  // Add event listeners for the buttons
+  document.getElementById("prevCar").addEventListener("click", () => updateCarModel(currentIndex - 1));
+  document.getElementById("nextCar").addEventListener("click", () => updateCarModel(currentIndex + 1));
+</script>

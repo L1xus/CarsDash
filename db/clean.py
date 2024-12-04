@@ -58,6 +58,24 @@ def clean_database():
             """, (new_name, old_name))
         print("Normalized car company names")
 
+        # Remove none sense prices
+        cur.execute("""
+            DELETE FROM cars
+            WHERE 
+                (price > 4000000 OR price < 7500)
+                OR (price < 20000 AND year > 2008)
+                OR (car_company IN ('Renault', 'Peugeot', 'Dacia', 'Citroen', 'Mitsubishi') AND price > 400000)
+                OR (car_company = 'Volkswagen' AND (price > 760000 OR price < 13000))
+                OR (car_company = 'Kia' AND (price > 550000 OR price < 20000))
+                OR (car_company = 'Hyundai' AND price > 444444)
+                OR (car_company = 'Toyota' AND price > 450000)
+                OR (car_company = 'Fiat' AND price > 260000)
+                OR (car_company = 'Dacia' AND price < 15000)
+                OR (car_company IN ('Hyundai', 'Mitsubishi', 'Toyota', 'Citroen') AND price < 10000)
+                OR (car_company = 'Peugeot' AND price < 12000);
+        """)
+        print("None sense cars removed!")
+
         conn.commit()
         print("Database cleanup completed successfully!")
 
