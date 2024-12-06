@@ -1,8 +1,7 @@
 <div style="text-align: center; position: relative;">
   <button id="prevCar" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); 
     background: none; border: none; font-size: 32px; cursor: pointer;">⬅️</button>
-  <img id="carImage" src="/public/car-images/{{variableValue '${car_company}'}}.png" alt="Car Image" 
-    style="width: 100px; height: 100px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);" />
+  <img id="carImage" src="https://raw.githubusercontent.com/L1xus/CarsDash/main/car-images/{{variableValue '${car_company}'}}.png" alt="Car Image" style="width: auto; height: 280px;" />
   <button id="nextCar" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); 
     background: none; border: none; font-size: 32px; cursor: pointer;">➡️</button>
   <!-- <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512"><path fill="#ffffff" d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>   -->
@@ -26,7 +25,7 @@
     const newCar = carCompanies[currentIndex];
 
     // Update the car image
-    document.getElementById("carImage").src = `/public/car-images/${newCar}.png`;
+    document.getElementById("carImage").src = `https://raw.githubusercontent.com/L1xus/CarsDash/main/car-images/${newCar}.png`;
 
     // Update Grafana variable
     context.grafana.locationService.partial({ "var-car_company": newCar }, true);
