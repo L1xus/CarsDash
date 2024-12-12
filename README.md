@@ -14,6 +14,8 @@ This repository contains a personal project focused on building an end-to-end da
     * [Data Visualization](#data_visualization)
 * [Tech Stack](#teck-stack)
 * [Prerequisites](#prerequisites)
+* [Run the project](#run-the-project)
+* [Future Enhancements](#future_enhancements)
 
 ## Architecture diagram
 Will add this later...
@@ -52,3 +54,24 @@ The **data visualization** phase is implemented through grafana/
  - [Python 3.8+ (pip)](https://www.python.org/)
  - [docker-compose](https://docs.docker.com/compose/install/)
  - [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)
+
+## Run the project
+1. Clone the repository:
+  ```
+  git clone https://github.com/L1xus/CarsDash.git
+  cd CarsDash
+  ```
+2. Run docker-compose
+  ```docker-compose up --build```
+3. Create the dashboard
+  ```  
+    cd grafana
+    docker-compose up --build
+  ```
+4. Import the Cars Dashboard json file into grafana
+
+## Future Enhancements
+ - Add support for filtering by car_model and year.
+ - Automate the process every month.
+ - Enhance data quality by creating a machine learning model to filter car listings.
+ - Consider a better option to make the dashboard public.
