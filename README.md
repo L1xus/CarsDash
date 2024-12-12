@@ -42,8 +42,13 @@ The **data visualization** phase is implemented through grafana/
 ## Tech Stack
 <div style="display: flex; align-items: center; gap: 10px;">
     <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" alt="Python badge">
-    <img src="https://img.shields.io/badge/aws-blue?logo=Amazon%20Web%20Services" alt="Amazon Cloud badge">
+    <img src="https://img.shields.io/badge/aws-252F3E?style=for-the-badge&logo=Amazon%20Web%20Services" alt="Amazon Cloud badge">
     <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge">
-    <img src="https://img.shields.io/badge/grafana-blue?logo=grafana" alt="Grafana badge">
+    <img src="https://img.shields.io/badge/grafana-182F9E?style=for-the-badge&logo=Grafana" alt="Grafana badge">
 </div>
 
+## Prerequisites
+ - [Docker](https://docs.docker.com/get-docker/)
+ - [Python 3.8+ (pip)](https://www.python.org/)
+ - [docker-compose](https://docs.docker.com/compose/install/)
+ - [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)
