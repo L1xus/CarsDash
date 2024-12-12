@@ -8,6 +8,12 @@ This repository contains a personal project focused on building an end-to-end da
 ## Table of Content
 * [Architecture diagram](#architecture-diagram)
 * [Overview](#overview)
+    * [Data Scraping](#data_scraping)
+    * [Data Cleaning & Transformation](#data_cleaning_&_transformation)
+    * [Data Storage](#data_storge)
+    * [Data Visualization](#data_visualization)
+* [Tech Stack](#teck-stack)
+* [Prerequisites](#prerequisites)
 
 ## Architecture diagram
 Will add this later...
@@ -17,7 +23,7 @@ Will add this later...
 ### 1. Data Scraping
 The **data scraping** phase is managed by scripts in avito/ and moteur/
 - **Web Scraping:** Used Python's BeautifulSoup to extract data from the two used car marketplaces.
-- **Attributes Collected:** Scraped key attributes such as price, car_model, car_company, year, mileage, and more...
+- **Attributes Collected:** Scraped key attributes such as price, car_model, car_company, year, km, and more...
 
 ### 2. Data Cleaning & Transformation
 The **data cleaning and transformation** phase is handled by functions in db/
@@ -27,3 +33,17 @@ The **data cleaning and transformation** phase is handled by functions in db/
 ### 3. Data Storage
 The **data storage** phase is executed by insert script in db/
  - **AWS RDS Integration:** Load cleaned and structured data into an AWS RDS PostgreSQL database.
+
+### 4. Data Visualization
+The **data visualization** phase is implemented through grafana/
+ - **Grafana Integration:** Configure interactive dashboard to visualize market trends, pricing... for every car_company.
+ - **Grafana Cloud:** Leverage cloud-hosted service for dynamic, real-time data exploration.
+
+## Tech Stack
+<div style="display: flex; align-items: center; gap: 10px;">
+    <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" alt="Python badge">
+    <img src="https://img.shields.io/badge/aws-blue?logo=Amazon%20Web%20Services" alt="Amazon Cloud badge">
+    <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge">
+    <img src="https://img.shields.io/badge/grafana-blue?logo=grafana" alt="Grafana badge">
+</div>
+
