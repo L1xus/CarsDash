@@ -41,6 +41,9 @@ The **data visualization** phase is implemented through grafana/
  - **Grafana Integration:** Configure interactive dashboard to visualize market trends, pricing... for every car_company.
  - **Grafana Cloud:** Leverage cloud-hosted service for dynamic, real-time data exploration.
 
+![dashboard_01](grafana/dashboard_01.png) 
+![dashboard_02](grafana/dashboard_02.png)
+
 ## Tech Stack
 <div style="display: flex; align-items: center; gap: 10px;">
     <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" alt="Python badge">
