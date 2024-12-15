@@ -89,7 +89,7 @@
         },
         "showAdvancedTypes": true
       },
-      "pluginVersion": "11.4.0-79828",
+      "pluginVersion": "11.5.0-80050",
       "targets": [
         {
           "refId": "A"
@@ -587,7 +587,7 @@
       },
       "id": 5,
       "options": {
-        "afterRender": "const carCompanies = [\"Abarth\", \"Alfa Romeo\", \"Aston Martin\", \"Audi\", \"Bentley\", \"BMW\", \"BYD\", \"Cadillac\", \"Chana\", \"Changhe\", \"Chery\", \"Chevrolet\", \"Chrysler\", \"Citroen\", \"Cupra\", \"Dacia\", \"Daewoo\", \"Daihatsu\", \"DFSK\", \"Dodge\", \"DS\", \"Faw\", \"Ferrari\", \"Fiat\", \"Ford\", \"Foton\", \"Gaz\", \"Geely\", \"GMC\", \"Great-wall\", \"Honda\", \"Hummer\", \"Hyundai\", \"Infiniti\", \"Isuzu\", \"Iveco\", \"Jaguar\", \"Jeep\", \"Kia\", \"Lamborghini\", \"Lancia\", \"Land Rover\", \"Lexus\", \"Lifan\", \"Lincoln\", \"Mahindra\", \"Maserati\", \"Mazda\", \"Mercedes\", \"Mg\", \"Mini\", \"Mitsubishi\", \"Nissan\", \"Opel\", \"Other\", \"Peugeot\", \"Pontiac\", \"Porsche\", \"Renault\", \"Rolls-Royce\", \"Rover\", \"Seat\", \"Simca\", \"Skoda\", \"Smart\", \"Ssangyong\", \"Subaru\", \"Suzuki\", \"Tata\", \"Tesla\", \"Toyota\", \"Triumph\", \"Volkswagen\", \"Volvo\", \"Zotye\"];\n\n// Get the current car company from Grafana variable\nlet currentCar = context.grafana.replaceVariables(\"${car_company}\");\n\n// Find the current index\nlet currentIndex = carCompanies.indexOf(currentCar);\n\n// Function to update the car company variable and the image\nfunction updateCarModel(index) {\n  currentIndex = (index + carCompanies.length) % carCompanies.length;\n  const newCar = carCompanies[currentIndex];\n\n  // Update the car image\n  document.getElementById(\"carImage\").src = `/public/car-images/${newCar}.png`;\n\n  // Update Grafana variable\n  context.grafana.locationService.partial({ \"var-car_company\": newCar }, true);\n}\n\n// Add event listeners for the buttons\ndocument.getElementById(\"prevCar\").addEventListener(\"click\", () => updateCarModel(currentIndex - 1));\ndocument.getElementById(\"nextCar\").addEventListener(\"click\", () => updateCarModel(currentIndex + 1));\n",
+        "afterRender": "const carCompanies = [\"Abarth\", \"Alfa Romeo\", \"Aston Martin\", \"Audi\", \"Bentley\", \"BMW\", \"BYD\", \"Cadillac\", \"Chana\", \"Changhe\", \"Chery\", \"Chevrolet\", \"Chrysler\", \"Citroen\", \"Cupra\", \"Dacia\", \"Daewoo\", \"Daihatsu\", \"DFSK\", \"Dodge\", \"DS\", \"Faw\", \"Ferrari\", \"Fiat\", \"Ford\", \"Foton\", \"Gaz\", \"Geely\", \"GMC\", \"Great-wall\", \"Honda\", \"Hummer\", \"Hyundai\", \"Infiniti\", \"Isuzu\", \"Iveco\", \"Jaguar\", \"Jeep\", \"Kia\", \"Lamborghini\", \"Lancia\", \"Land Rover\", \"Lexus\", \"Lifan\", \"Lincoln\", \"Mahindra\", \"Maserati\", \"Mazda\", \"Mercedes\", \"Mg\", \"Mini\", \"Mitsubishi\", \"Nissan\", \"Opel\", \"Other\", \"Peugeot\", \"Pontiac\", \"Porsche\", \"Renault\", \"Rolls-Royce\", \"Rover\", \"Seat\", \"Simca\", \"Skoda\", \"Smart\", \"Ssangyong\", \"Subaru\", \"Suzuki\", \"Tata\", \"Tesla\", \"Toyota\", \"Triumph\", \"Volkswagen\", \"Volvo\", \"Zotye\"];\n\n// Get the current car company from Grafana variable\nlet currentCar = context.grafana.replaceVariables(\"${car_company}\");\n\n// Find the current index\nlet currentIndex = carCompanies.indexOf(currentCar);\n\n// Function to update the car company variable and the image\nfunction updateCarModel(index) {\n  currentIndex = (index + carCompanies.length) % carCompanies.length;\n  const newCar = carCompanies[currentIndex];\n\n  // Update the car image\n  document.getElementById(\"carImage\").src = `https://raw.githubusercontent.com/L1xus/CarsDash/main/car-images/${newCar}.png`;\n\n  // Update Grafana variable\n  context.grafana.locationService.partial({ \"var-car_company\": newCar }, true);\n}\n\n// Add event listeners for the buttons\ndocument.getElementById(\"prevCar\").addEventListener(\"click\", () => updateCarModel(currentIndex - 1));\ndocument.getElementById(\"nextCar\").addEventListener(\"click\", () => updateCarModel(currentIndex + 1));\n",
         "content": "```json\n{{{json @root}}}\n```",
         "contentPartials": [],
         "defaultContent": "<div style=\"text-align: center; position: relative;\">\n  <style>\n    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');\n  </style>\n  <button id=\"prevCar\" style=\"position: absolute; left: 0; top: 50%; transform: translateY(-50%); \n    background: none; border: none; font-size: 32px; cursor: pointer;\">\n    <i class=\"fa-solid fa-angles-left\" style=\"color: #ffffff;\"></i>\n    </button>\n  <img id=\"carImage\" src=\"https://raw.githubusercontent.com/L1xus/CarsDash/main/car-images/{{variableValue '${car_company}'}}.png\" alt=\"Car Image\" style=\"width: auto; height: 280px;\" />\n  <button id=\"nextCar\" style=\"position: absolute; right: 0; top: 50%; transform: translateY(-50%); \n    background: none; border: none; font-size: 32px; cursor: pointer;\">\n      <i class=\"fa-solid fa-angles-right\" style=\"color: #ffffff;\"></i>\n  </button>\n</div>",
@@ -597,7 +597,8 @@
         },
         "editors": [
           "default",
-          "afterRender"
+          "afterRender",
+          "helpers"
         ],
         "externalStyles": [],
         "helpers": "",
@@ -714,7 +715,7 @@
         "xTickLabelRotation": 0,
         "xTickLabelSpacing": 0
       },
-      "pluginVersion": "11.4.0-79828",
+      "pluginVersion": "11.5.0-80050",
       "targets": [
         {
           "editorMode": "code",
@@ -863,7 +864,7 @@
         "xTickLabelRotation": 0,
         "xTickLabelSpacing": 0
       },
-      "pluginVersion": "11.4.0-79828",
+      "pluginVersion": "11.5.0-80050",
       "targets": [
         {
           "editorMode": "code",
@@ -974,7 +975,7 @@
         "xTickLabelRotation": 0,
         "xTickLabelSpacing": 0
       },
-      "pluginVersion": "11.4.0-79489",
+      "pluginVersion": "11.4.0-79828",
       "targets": [
         {
           "editorMode": "code",
@@ -1063,7 +1064,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "11.4.0-79489",
+      "pluginVersion": "11.4.0-79828",
       "targets": [
         {
           "editorMode": "code",
@@ -1151,7 +1152,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.4.0-79489",
+      "pluginVersion": "11.4.0-79828",
       "targets": [
         {
           "editorMode": "code",
@@ -1233,7 +1234,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.0-79489",
+      "pluginVersion": "11.4.0-79828",
       "targets": [
         {
           "editorMode": "code",
@@ -1315,7 +1316,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.4.0-79489",
+      "pluginVersion": "11.4.0-79828",
       "targets": [
         {
           "editorMode": "code",
@@ -1397,7 +1398,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.0-79489",
+      "pluginVersion": "11.4.0-79828",
       "targets": [
         {
           "editorMode": "code",
@@ -1438,8 +1439,8 @@
         "allValue": ".*",
         "allowCustomValue": true,
         "current": {
-          "text": "Hyundai",
-          "value": "Hyundai"
+          "text": "BMW",
+          "value": "BMW"
         },
         "definition": "SELECT DISTINCT car_company FROM cars\nORDER BY car_company",
         "includeAll": false,
@@ -1474,6 +1475,6 @@
   "timezone": "browser",
   "title": "Cars Dashboard",
   "uid": "ce53llo7ksvswa",
-  "version": 9,
+  "version": 13,
   "weekStart": ""
 }
