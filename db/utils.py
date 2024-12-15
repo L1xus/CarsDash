@@ -1,5 +1,13 @@
+import psycopg2
 from datetime import datetime
 from psycopg2 import sql
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+db_host = os.getenv("HOST")
+db_password = os.getenv("PASSWORD")
 
 def create_backup(cursor):
     # Create a backup of the cars table
@@ -57,3 +65,29 @@ def remove_nonsense_prices(cursor):
         """
     )
     print("None sense cars removed!")
+
+def get_last_announcement_date():
+    try:
+        conn = psycopg2.connect(
+            dbname="carsdb",
+            user="postgres",
+            host=db_host,
+            password=db_password,
+            port="5432",
+        )
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT MAX(announcement_date) FROM cars;")
+
+        last_date = cursor.fetchone()[0]
+
+        return last_date
+
+    except Exception as e:
+        print(f"Error fetching last announcement date: {e}")
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()

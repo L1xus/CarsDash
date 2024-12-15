@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from .car_details import get_car_detail
 from .config import base_url, headers
 from db.insert import insert_cars
+from db.utils import get_last_announcement_date
 
 BATCH_CARS = 150
 
@@ -13,8 +14,11 @@ def scrape_moteur(car_num):
     total_cars = 0
     page_number = 1
     cars = []
+    stop_scraping = False
 
-    while total_cars < car_num:
+    last_announcement_date = get_last_announcement_date()
+
+    while total_cars < car_num and not stop_scraping:
         start_index = (page_number - 1) * 30
 
         url = f"{base_url}{start_index}"
@@ -25,6 +29,12 @@ def scrape_moteur(car_num):
 
         for car_html in car_soup:
             selected_cars = get_car_detail(car_html)
+
+            car_date = selected_cars.get("announcement_date")
+            if car_date and car_date <= last_announcement_date:
+                stop_scraping = True
+                break
+
             cars.append(selected_cars)
             total_cars += 1
 

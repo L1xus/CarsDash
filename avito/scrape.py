@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from .car_details import get_car_detail
 from .config import base_url, headers
 from db.insert import insert_cars
+from db.utils import get_last_announcement_date
 
 BATCH_CARS = 250
 
@@ -13,9 +14,11 @@ def scrape_avito(car_num):
     total_cars = 0
     page_number = 1
     cars = []
+    stop_scraping = False
 
-    while total_cars < car_num:
+    last_announcement_date = get_last_announcement_date()
 
+    while total_cars < car_num and not stop_scraping:
         url = f"{base_url}{page_number}"
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, "html.parser")
@@ -25,6 +28,12 @@ def scrape_avito(car_num):
         for car_html in car_soup:
             car_url = car_html["href"]
             car_detail = get_car_detail(car_url)
+
+            car_date = car_detail.get("announcement_date")
+            if car_date and car_date <= last_announcement_date:
+                stop_scraping = True
+                break
+
             cars.append(car_detail)
             total_cars += 1
 
