@@ -17,8 +17,9 @@ def scrape_moteur(car_num):
     stop_scraping = False
 
     last_announcement_date = get_last_announcement_date()
+    print(last_announcement_date)
 
-    while total_cars < car_num and not stop_scraping:
+    while total_cars < car_num or not stop_scraping:
         start_index = (page_number - 1) * 30
 
         url = f"{base_url}{start_index}"
@@ -31,15 +32,16 @@ def scrape_moteur(car_num):
             selected_cars = get_car_detail(car_html)
 
             car_date = selected_cars.get("announcement_date")
-            if car_date and car_date <= last_announcement_date:
-                stop_scraping = True
-                break
+            print(car_date)
+            # if car_date and car_date <= last_announcement_date:
+            #     stop_scraping = True
+            #     break
 
             cars.append(selected_cars)
             total_cars += 1
 
             if len(cars) >= BATCH_CARS:
-                insert_cars(cars)
+                # insert_cars(cars)
                 total_inserted += len(cars)
                 cars = []
 
@@ -52,7 +54,7 @@ def scrape_moteur(car_num):
             time.sleep(random.uniform(5, 15))
 
     if cars:
-        insert_cars(cars)
+        # insert_cars(cars)
         total_inserted += len(cars)
 
     return {

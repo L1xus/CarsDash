@@ -18,7 +18,7 @@ This repository contains a personal project focused on building an end-to-end da
 * [Future Enhancements](#future_enhancements)
 
 ## Architecture diagram
-Will add this later...
+![Architecture](architecture.png)
 
 ## Overview
 

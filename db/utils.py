@@ -67,6 +67,8 @@ def remove_nonsense_prices(cursor):
     print("None sense cars removed!")
 
 def get_last_announcement_date():
+    conn = None
+    cursor = None
     try:
         conn = psycopg2.connect(
             dbname="carsdb",
@@ -77,17 +79,19 @@ def get_last_announcement_date():
         )
         cursor = conn.cursor()
 
+        # Execute the query to fetch the last announcement date
         cursor.execute("SELECT MAX(announcement_date) FROM cars;")
-
-        last_date = cursor.fetchone()[0]
+        last_date = cursor.fetchone()[0]  # Fetch the single result
 
         return last_date
 
     except Exception as e:
         print(f"Error fetching last announcement date: {e}")
+        return None  # Return None if an error occurs
 
     finally:
-        if cursor:
+        # Safely close the cursor and connection
+        if cursor is not None:
             cursor.close()
-        if conn:
+        if conn is not None:
             conn.close()
